@@ -99,8 +99,6 @@ def get_irreducible_by_power(power: int):
         for poly in polynomials:
             _, mod = poly_div(psble, poly)
             if not mod[0]:
-                if psble == [1, 1, 0, 0, 0, 0, 1]:
-                    print()
                 isIrreducible = False
                 break
         if isIrreducible:
@@ -150,3 +148,5 @@ def find_minimum_poly(poly):
 
 
 find_minimum_poly([1, 0, 1, 0, 0, 1])
+# print(get_irreducible_by_power(5))
+# print(get_irreducible_by_power(1))
