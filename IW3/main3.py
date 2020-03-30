@@ -21,11 +21,11 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.mainWidget = QWidget()
         self.setCentralWidget(self.mainWidget)
-        self.source_text_widget = QTextEdit("текст который должен быть зашифрован")
+        self.source_text_widget = QTextEdit("а роза упала на лапу азора")
         self.result_widget = QTextEdit()
         self.w_input_widget = QLineEdit("32")
-        self.r_input_widget = QLineEdit("25")
-        self.b_input_widget = QLineEdit("32")
+        self.r_input_widget = QLineEdit("108")
+        self.b_input_widget = QLineEdit("64")
         self.RC5 = None
         self.onlyInt = QIntValidator()
         self.initUI()
@@ -122,7 +122,6 @@ class MainWindow(QMainWindow):
         return True
 
     def get_key_from_file(self):
-        # try:
         if not self.source_text_widget.toPlainText():
             with open("result.txt", "rb") as file:
                 self.source_text_widget.setText(file.read().decode('iso8859-1'))

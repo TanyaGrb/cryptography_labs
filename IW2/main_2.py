@@ -39,7 +39,6 @@ def get_coeff(period):
                 a = b + 1
                 break
         b += 1
-    assert a is not None
     return a, c, randint(2, period)
 
 
@@ -60,14 +59,14 @@ def LFG(init, lst, m, count):
 
 delays = input("Параметры запаздывания: ")
 if not delays:
-    # y = xk + xj + 1 must be primitive over the integers mod 2.
+    # y = x^k + x^j + 1 must be primitive
     delays = choice([[7, 10], [5, 17], [24, 55], [65, 71], [128, 159]])
     k = delays[1] + 10
-    m = 5
+    m = 8
     print(f"delays = {delays}, k = {k}, m = {m}")
 else:
     delays = [int(item) for item in delays.split()]
     k = int(input("Длина начального заполнения: "))
     m = int(input("Модуль: "))
 initial_filling = gen_linear_congruential(k)
-print(LFG(initial_filling, delays, m, 100))
+print(LFG(initial_filling, delays, m, 1000))
