@@ -126,11 +126,21 @@ def get_cyclomatic_classes(power):
     return classes
 
 
+def print_class(cls, poly):
+    res = ""
+    for item in cls:
+        p = [1] + [0 for _ in range(item)]
+        _, mod = poly_div(p, poly)
+        res += "".join([str(i) for i in mod]).rjust(len(poly) - 1, "0") + ", "
+    return res[:-2]
+
+
 def find_minimum_poly(poly):
     """
         находит цикломатические классы в поле полинома poly и соответствующие им минимальные многочлены
     :param poly: list
     """
+    file = open("minimum_poly.txt", "w", encoding="utf-8")
     power = len(poly) - 1
     c_classes = get_cyclomatic_classes(power)
     polynomials = []
@@ -144,9 +154,12 @@ def find_minimum_poly(poly):
                 if value == 1:
                     new_poly[index * cl[0]] = 1
             if poly_div(new_poly, poly)[1] == [0]:
-                print(f"Цикломатический класс {cl}; многочлен: {poly_to_str(*p)}")
+                print(f"Цикломатический класс [{print_class(cl, poly)}]; многочлен: {poly_to_str(*p)}")
+                print(f"Цикломатический класс [{print_class(cl, poly)}]; многочлен: {poly_to_str(*p)}", file=file)
+    file.close()
+    input()
 
 
-find_minimum_poly([1, 0, 1, 0, 0, 1])
-# print(get_irreducible_by_power(5))
-# print(get_irreducible_by_power(1))
+poly = input("Введите полином: ").split()
+poly = [int(item) for item in poly]
+find_minimum_poly(poly)
