@@ -21,8 +21,8 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.mainWidget = QWidget()
         self.setCentralWidget(self.mainWidget)
-        self.source_text_widget = QTextEdit("а роза упала на лапу азора")
-        self.result_widget = QTextEdit()
+        self.source_text_widget = QLineEdit("а роза упала на лапу азора")
+        self.result_widget = QLineEdit()
         self.w_input_widget = QLineEdit("32")
         self.r_input_widget = QLineEdit("108")
         self.b_input_widget = QLineEdit("64")
@@ -41,8 +41,6 @@ class MainWindow(QMainWindow):
         self.b_input_widget.setMaximumWidth(50)
         self.source_text_widget.setMinimumWidth(300)
         self.result_widget.setMinimumWidth(300)
-        self.result_widget.setMinimumHeight(150)
-        self.source_text_widget.setMinimumHeight(150)
         self.result_widget.setReadOnly(True)
 
         button_encrypt = QPushButton("Шифровать")
@@ -85,7 +83,6 @@ class MainWindow(QMainWindow):
                 else:
                     self.RC5 = RC5(int(self.w_input_widget.text()), int(self.r_input_widget.text()),
                                    int(self.b_input_widget.text()), key)
-
                 return True
             else:
                 return False
@@ -98,7 +95,7 @@ class MainWindow(QMainWindow):
     def go_encrypt(self):
         if not self.preparation():
             return
-        result = self.RC5.encryptBytes(self.source_text_widget.toPlainText().encode())
+        result = self.RC5.encryptBytes(self.source_text_widget.text().encode())
         self.result_widget.setText(result.decode('iso8859-1'))
         self.save_key()
 
@@ -106,23 +103,23 @@ class MainWindow(QMainWindow):
         with open("key.txt", "wb") as file:
             file.write(self.RC5.key)
         with open("result.txt", "wb") as file:
-            file.write(self.result_widget.toPlainText().encode('iso8859-1'))
+            file.write(self.result_widget.text().encode('iso8859-1'))
 
     def go_decrypt(self):
         if not self.preparation(mode=DECRYPT):
             return
-        result = self.RC5.decryptBytes(self.source_text_widget.toPlainText().encode("iso8859-1"))
+        result = self.RC5.decryptBytes(self.source_text_widget.text().encode("iso8859-1"))
         self.result_widget.setText(result.decode())
 
     def preparation(self, mode=CRYPT):
         if not self.getRC5(mode):
             return
-        if not self.source_text_widget.toPlainText().encode():
+        if not self.source_text_widget.text().encode():
             return
         return True
 
     def get_key_from_file(self):
-        if not self.source_text_widget.toPlainText():
+        if not self.source_text_widget.text():
             with open("result.txt", "rb") as file:
                 self.source_text_widget.setText(file.read().decode('iso8859-1'))
         with open("key.txt", "rb") as file:

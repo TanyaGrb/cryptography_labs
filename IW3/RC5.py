@@ -3,11 +3,13 @@ from secrets import token_bytes
 
 class RC5:
 
-    def __init__(self, w, R, b):
+    def __init__(self, w, R, b, own_key=None):
         self.w = w  # block size (32, 64 or 128 bits)
         self.R = R  # number of rounds (0 to 255)
-        self.key = token_bytes(b)  # key (0 to 2040 bits)
-
+        if own_key is None:
+            self.key = token_bytes(b)  # key (0 to 2040 bits)
+        else:
+            self.key = own_key
         # some useful constants
         self.T = 2 * (R + 1)  # the number of round subkeys required.
         self.w4 = w // 4
