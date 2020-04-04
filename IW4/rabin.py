@@ -1,5 +1,3 @@
-from math import sqrt
-
 from sympy import randprime
 
 
@@ -8,19 +6,6 @@ def adv_gcd(a, b):
         return 1, 0
     y, x = adv_gcd(b, a % b)
     return x, y - (a // b) * x
-
-
-def phi(n):
-    result = n
-    bound = int(sqrt(n))
-    for i in range(2, bound):
-        if n % i == 0:
-            while n % i == 0:
-                n /= i
-            result *= 1 - 1 / i
-    if n > 1:
-        result -= result / n
-    return int(result)
 
 
 class Rabin:
@@ -97,7 +82,7 @@ class Rabin:
         return blocks, k
 
 
-text = "source text"
+text = input("Введите текст: ")
 print(f"Исходный текст: {text}")
 rabin = Rabin()
 ciphertext = rabin.encrypt(text)
